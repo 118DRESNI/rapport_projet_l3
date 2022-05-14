@@ -1,6 +1,6 @@
 \documentclass[a4paper]{report}
 
-\usepackage[a4paper, total={7in, 10in}]{geometry}
+\usepackage[a4paper, total={5.75in, 10in}]{geometry}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[export]{adjustbox}
@@ -144,9 +144,23 @@ Pour finir, un grand merci à... %/mes amis et collègues qui m'ont guidé pour 
 	
 	\renewcommand{\chaptername}{Partie} % changement du titre des chapitres en "parties"
 	\chapter{Présentation de la spectroscopie et de la QEPAS}
+	Afin de mieux appréhender le sujet, nous avons résumé le fonctionnement et les principes physiques utilisés pour la mise en œuvre de la spectroscopie et plus particulièrement de la spectrophotométrie acoustique améliorée par quartz.
+	\section{Spectroscopie Classique}
+	De manière générale, la spectroscopie est définie comme le champs d'études qui mesure et interprète les spectres électromagnétiques résultants de l'interaction entre une onde électromagnétique et un matériau à étudier.
+	Historiquement, c'est au milieu du $XVII^{e}$ siècle que Isaac Newton montre que la lumière blanche du soleil peut être dispersée en une série continue de couleurs. Newton utilise le terme "spectre" pour décrire ce phénomène. Le premier spectroscope utilisait une ouverture pour définir un rayon de lumière collimaté par une lentille et finalement dispersé par un prisme (fig. \ref{illus:newton}). Cette analyse de la lumière était la première étape dans l'évolution de la spectroscopie.\\
+	\begin{figure}[h]	
+		\begin{center}			
+		\includegraphics[width=0.6\textwidth]{spectro_newton}
+		\caption{Expérience de Newton illustrée dans \textit{Élémens de la philosophie de Neuton} de Voltaire, 1738.}
+		\label{illus:newton}				
+		\end{center}
+	\end{figure}
+	Le $XIX^{e}$ siècle	a vu de nombreuses améliorations apportée à la technique. Jopheph Fraunhofer a étendu la découverte de Newton en remplaçant le prisme par un réseau de diffraction comme élément de dispersion. Le réseau de diffraction, reposant sur l'interférence des rayons lumineux pour produire un paterne de diffraction, permet la mesure directe de la longueur d'onde du rayon diffracté. Cette nouvelle technique permet une résolution spectrale supérieure au prisme, Fraunhofer a ainsi pu observer de nombreuses raies sombres dans le spectre issu de la lumière du soleil.\\
+	Malgré ses exploits, Fraunhofer ne comprenait pas l'origine des des raies spectrales qu'il observait.
 	
-	\section{Spectroscopie}
 	\section{QEPAS}
+		\subsection{principe de la QEPAS}
+			
 	\section{Mise en oeuvre a l'IES}
 
 	\chapter{Contexte et objectifs du projet}
@@ -214,11 +228,16 @@ Pour finir, un grand merci à... %/mes amis et collègues qui m'ont guidé pour 
 		Conference: ASME 2003 Heat Transfer Summer Conference.\\
 		DOI:10.1115/HT2003-47021
 		
-		\bibitem{brake_resistor} 
-		Thomas B. D. Björklund. 
-		\textit{A brake resistor perspective on Thermal Management}.\\ 
-		CDanotherm Electric [En ligne]. 2015 [consulté le 26 mars 2021].\\
-		Disponible sur: \\\texttt{https://www.danotherm.com/power-resistors/downloads}
+		\bibitem{spectro_mit} 
+		\textit{The Era of Classical Spectroscopy}.\\ 
+		Site web du Massachusetts Institute of Technology [En ligne] [consulté le 10 mai 2022].\\
+		Disponible sur: \\\texttt{http://web.mit.edu/spectroscopy/history/history-classical.html}		
+		
+		\bibitem{spectro_voltaire} 
+		Marie François Arouet de Voltaire. 
+		\textit{Élémens de la philosophie de Neuton, donnés par Mr de Voltaire. Nouvelle édition}.\\ 
+		Bibliothèque Nationale de France [En ligne]. 1738 [consulté le 10 mai 2022].\\
+		Disponible sur: \\\texttt{https://gallica.bnf.fr/ark:/12148/btv1b8622062t}
 		
 		\bibitem{histoire_alstom} 
 		\textit{Génèse et Histoire du site Alstom à Séméac}.\\
