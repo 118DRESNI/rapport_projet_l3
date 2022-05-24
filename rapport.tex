@@ -171,13 +171,11 @@ Pour finir, un grand merci à... %/mes amis et collègues qui m'ont guidé pour 
 
 	
 	\section{Contexte}
-	Le besoin / ce que l'on doit accomplir avec ce projet
+	Le besoin est de réaliser un appareil facilitant la mise en œuvre des manipulations QEPAS. En effet, beaucoup de matériel est nécessaire à la mise en place de cette technique et il serait bénéfique de condenser l'étage d'affichage des mesures dans un seul appareil.
+	Notre projet intervient donc à la suite de la détection synchrone.
 	
-	\section{Sujet: Afficheur de mesures de concentration de gaz}
-	Conception et réalisation du système autours de la Raspi
-		
-	\section{Sujet secondaire: Comparaison des performances entre QEPAS et capteurs du commerce}
-	Mise en application du système, utilisation avec les 2 types de mesures et conclusion
+	\section{Objectif: Afficheur de mesure de signal QEPAS}
+	L'objectif de notre projet est de représenter en temps réel l'évolution du signal d'acquisition sur graphe.
 	
 	\chapter{Afficheur de mesures de concentration de gaz}
 	
@@ -185,10 +183,48 @@ Pour finir, un grand merci à... %/mes amis et collègues qui m'ont guidé pour 
 	\section{Besoin technique}
 	
 	\section{Gestion de projet et organisation du travail}
+	Le travail est réparti entre Nicolas Dressayre et Cheick Sylla. 
 	
 	\section{Conception}
 	\subsection{architecture retenue}
+	Nous avons choisi d'utiliser le SBC (single-board computer) très populaire Raspberry Pi 3B+ comme élément central de notre projet. Cet ordinateur disposant d'une sortie HDMI est entièrement capable d'effectuer un affichage graphique des mesures QEPAS. Une autre option que nous avions envisagé aurait été d'utiliser une carte à micro contrôleur: l'Arduino Uno. Cette seconde option nous aurait permis d'effectuer l'acquisition des signaux analogiques mais pas de les afficher directement. Le micro-contrôleur ATmega328 de la carte Arduino n'a pas la capacité de générer des signaux vidéo. Une façon de contourner ce problème aurait été de connecter l'Arduino à un autre ordinateur au moyen d'une liaison série, mais le volume du système complet aurait été augmenté.\\
+	
+	Comme les ordinateurs Raspberry Pi ne disposent pas de convertisseur analogique-numérique intégré, nous devons en ajouter un à notre système.\\
+	
+
+	
 	\subsection{choix des composants}
+	
+\subsubsection{Convertisseur analogique numérique}
+	Nous avons fait le choix d'utiliser un module (nom commercial KY-053) intégrant un convertisseur ADS1115. Ce composant développé par Texas Instruments a été rendu populaire par l'entreprise Adafruit qui a conçu le module ainsi que des librairies pour les plateformes Arduino et Raspberry Pi.\\
+	Les principales caractéristiques du module sont résumés dans le tableau 
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|ll|}
+\hline
+                                & \multicolumn{1}{l|}{minimum}    & maximum    \\ \hline
+Tension d'alimentation          & \multicolumn{1}{l|}{2V}         & 5.5V       \\ \hline
+Taux d'échantillonnage          & \multicolumn{1}{l|}{8 Hz}       & 860 Hz     \\ \hline
+Résolution                      & \multicolumn{2}{c|}{16 Bits (65536 niveaux)} \\ \hline
+Nombre d'entrées analogiques    & \multicolumn{2}{c|}{4}                       \\ \hline
+Tension des entrées analogiques & \multicolumn{1}{l|}{0.256 V}    & 6.144 V    \\ \hline
+Mode de communication numérique & \multicolumn{2}{c|}{I²C}                     \\ \hline
+\end{tabular}
+\caption{Principales Caractéristiques de l'ADS1115}
+\label{tab:ads1115}
+\end{table}
+
+\subsubsection{Capteur de dioxyde de carbone SEN-059}
+	Peu de capteurs de CO2 sont disponibles sur le marché. Nous avons fait le choix d'utiliser le SEN0159, un module produit par DFRobot intégrant un capteur MG-811 Winsen, un fabricant chinois de capteurs dont les produits sont souvent utilisés dans les projets de domotique.
+\subsubsection{Capteur de monoxyde de carbone: SEN-MQ7}
+	Nous avons aussi utilisé un capteur de la marque Winsen pour notre capteur de monoxyde de carbone. Il s'agit du capteur MQ7 monté sur le module SEN-MQ7 fabriqué par Joy-IT
+\subsubsection{Capteur de température / humidité: DHT 22}
+	Contrairement aux deux capteurs de gaz, le capteur de température DHT 22 n'a pas besoin de convertisseur analogique numérique puisque il intègre sons propre micro contrôleur et communique via un protocole série unifilaire. En plus de la température, le DHT 22 permet aussi une mesure de l'humidité ambiante et revoie une valeur en pour cents. D'un point de vue logiciel, ce capteur est très bien supporté et une librairie développée par Adafruit est disponible. Contrairement au convertisseur analogique numérique, le DHT 22 n'est capable de fournir une mesure que toutes les deux secondes.
+	
+\subsubsection{Convertisseur niveaux logiques}
+
+
 	\subsection{éléments logiciels}
 	\subsection{modélisation du boitier}
 	
