@@ -9,6 +9,7 @@
 \usepackage{wrapfig}
 \usepackage{subcaption}
 \usepackage{epigraph}
+\usepackage{multirow}
 % pour la modification du style des pages (numérotation)
 %\usepackage{fancyhdr}
 
@@ -191,45 +192,87 @@ Pour finir, un grand merci à... %/mes amis et collègues qui m'ont guidé pour 
 	
 	Comme les ordinateurs Raspberry Pi ne disposent pas de convertisseur analogique-numérique intégré, nous devons en ajouter un à notre système.\\
 	
+	L'architecture complète de notre projet est représentée dans la figure \ref{schema:archi}. Maintenant que nous connaissons tous les éléments de notre projet, nous pouvons les détailler individuellement et brièvement expliquer leur fonctionnement.
+	
+	\begin{figure}[h]	
+		\begin{center}			
+		\includegraphics[width=1.2\textwidth]{systeme_global}
+		\caption{Schéma de principe du projet.}
+		\label{schema:archi}				
+		\end{center}
+	\end{figure}	
 
 	
 	\subsection{choix des composants}
 	
 \subsubsection{Convertisseur analogique numérique}
 	Nous avons fait le choix d'utiliser un module (nom commercial KY-053) intégrant un convertisseur ADS1115. Ce composant développé par Texas Instruments a été rendu populaire par l'entreprise Adafruit qui a conçu le module ainsi que des librairies pour les plateformes Arduino et Raspberry Pi.\\
-	Les principales caractéristiques du module sont résumés dans le tableau 
+	Les principales caractéristiques du module sont résumés dans le tableau \ref{tab:ads1115}
 
 \begin{table}[]
 \centering
-\begin{tabular}{|l|ll|}
+\begin{tabular}{|l|ll|l|}
 \hline
-                                & \multicolumn{1}{l|}{minimum}    & maximum    \\ \hline
-Tension d'alimentation          & \multicolumn{1}{l|}{2V}         & 5.5V       \\ \hline
-Taux d'échantillonnage          & \multicolumn{1}{l|}{8 Hz}       & 860 Hz     \\ \hline
-Résolution                      & \multicolumn{2}{c|}{16 Bits (65536 niveaux)} \\ \hline
-Nombre d'entrées analogiques    & \multicolumn{2}{c|}{4}                       \\ \hline
-Tension des entrées analogiques & \multicolumn{1}{l|}{0.256 V}    & 6.144 V    \\ \hline
-Mode de communication numérique & \multicolumn{2}{c|}{I²C}                     \\ \hline
+ & \multicolumn{1}{l|}{minimum} & maximum & \multirow{7}{*}{\includegraphics[width=0.3\textwidth]{ads1115}} \\ \cline{1-3}
+Tension d'alimentation          & \multicolumn{1}{l|}{2V}         & 5.5V       &  \\ \cline{1-3}
+Taux d'échantillonnage          & \multicolumn{1}{l|}{8 Hz}       & 860 Hz     &  \\ \cline{1-3}
+Résolution                      & \multicolumn{2}{c|}{16 Bits (65536 valeurs)} &  \\ \cline{1-3}
+Nombre d'entrées analogiques    & \multicolumn{2}{c|}{4}                       &  \\ \cline{1-3}
+Tension des entrées analogiques & \multicolumn{1}{l|}{0.256 V}    & 6.144 V    &  \\ \cline{1-3}
+Mode de communication numérique & \multicolumn{2}{c|}{I²C}                     &  \\ \hline
 \end{tabular}
-\caption{Principales Caractéristiques de l'ADS1115}
+\caption{Principales caractéristiques de l'ADS1115}
 \label{tab:ads1115}
 \end{table}
 
-\subsubsection{Capteur de dioxyde de carbone SEN-059}
-	Peu de capteurs de CO2 sont disponibles sur le marché. Nous avons fait le choix d'utiliser le SEN0159, un module produit par DFRobot intégrant un capteur MG-811 Winsen, un fabricant chinois de capteurs dont les produits sont souvent utilisés dans les projets de domotique.
+\subsubsection{Capteur de dioxyde de carbone SEN-0159}
+	Peu de capteurs de CO2 sont disponibles sur le marché. Nous avons fait le choix d'utiliser le SEN0159, un module produit par DFRobot intégrant un capteur électrochimique MG-811 Winsen, un fabricant chinois de capteurs dont les produits sont souvent utilisés dans les projets de domotique. En plus du capteur, le module comprend un amplificateur de signal de sortie, un circuit de chauffe pour garantir une température constante de l'élément de détection.\\
+	
+\begin{table}[]
+\centering
+\begin{tabular}{|l|cl|l|}
+\hline
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{minimum} & \multicolumn{1}{c|}{maximum} & \multirow{7}{*}{\includegraphics[width=0.25\textwidth]{sen0159}} \\ \cline{1-3}
+Espèce détectée        & \multicolumn{2}{c|}{Dioxyde de carbone} &  \\ \cline{1-3}
+Tension d'alimentation & \multicolumn{1}{c|}{3.5V}   & 5.0V      &  \\ \cline{1-3}
+Tension de sortie      & \multicolumn{1}{c|}{2.7V}   & 4.7V      &  \\ \cline{1-3}
+Type de capteur        & \multicolumn{2}{c|}{électrochimique}    &  \\ \cline{1-3}
+Plage de mesure        & \multicolumn{1}{c|}{0 ppm}  & 10000 ppm &  \\ \cline{1-3}
+Précision              & \multicolumn{2}{c|}{±100ppm à 400ppm}   &  \\ \hline
+\end{tabular}
+\caption{Principales caractéristiques du SEN-0159}
+\label{tab:SEN0159}
+\end{table}
+
 \subsubsection{Capteur de monoxyde de carbone: SEN-MQ7}
 	Nous avons aussi utilisé un capteur de la marque Winsen pour notre capteur de monoxyde de carbone. Il s'agit du capteur MQ7 monté sur le module SEN-MQ7 fabriqué par Joy-IT
 \subsubsection{Capteur de température / humidité: DHT 22}
-	Contrairement aux deux capteurs de gaz, le capteur de température DHT 22 n'a pas besoin de convertisseur analogique numérique puisque il intègre sons propre micro contrôleur et communique via un protocole série unifilaire. En plus de la température, le DHT 22 permet aussi une mesure de l'humidité ambiante et revoie une valeur en pour cents. D'un point de vue logiciel, ce capteur est très bien supporté et une librairie développée par Adafruit est disponible. Contrairement au convertisseur analogique numérique, le DHT 22 n'est capable de fournir une mesure que toutes les deux secondes.
+	Contrairement aux deux capteurs de gaz, le capteur de température DHT 22 n'a pas besoin de convertisseur analogique numérique puisque ce dernier intègre son propre micro-contrôleur et communique via un protocole série unifilaire. En plus de la température, le DHT 22 permet aussi une mesure de l'humidité ambiante et revoie une valeur en pour cents. D'un point de vue logiciel, ce capteur est très bien supporté et une librairie développée par Adafruit est disponible. Contrairement au convertisseur analogique numérique, le DHT 22 n'est capable de fournir une mesure que toutes les deux secondes.
 	
 \subsubsection{Convertisseur niveaux logiques}
 
 
 	\subsection{éléments logiciels}
+Maintenant que la partie matérielle du projet est établie et que chaque composant a été décrit, nous réalisons le programme Python permettant de lire les capteurs, de convertir les tensions lues et d'afficher les résultats sur l'écran de la Raspberry Pi.\\
+Cette partie du projet a été gérée en totalité sous la forme d'un dépôt GitHub disponible à l'adresse suivante:
+\begin{center}
+	\texttt{https://github.com/118DRESNI/projet\_l3}
+\end{center}
+
+La première étape de programmation a été de tester individuellement les capteurs à notre disposition. Le plus simple à mettre en oeuvre est le DHT22.
 	\subsection{modélisation du boitier}
 	
 	\section{Réalisation}
 	\subsection{prototypage sur breadboard}
+
+	\begin{figure}[h]	
+		\begin{center}			
+		\includegraphics[width=1.1\textwidth]{schema_manip}
+		\caption{Prototype complet.}
+		\label{schema:manip}				
+		\end{center}
+	\end{figure}
+
 	\subsection{tests préliminaires}
 	\subsection{impression du boitier et assemblage}
 	
